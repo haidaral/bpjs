@@ -1,0 +1,11 @@
+﻿{
+  "name": "bpjs-payroll-simulator",
+  "private": true,
+  "version": "2.1.0",
+  "scripts": {
+    "cf:dev": "wrangler dev",
+    "cf:deploy": "wrangler deploy",
+    "cf:pages:deploy": "wrangler pages deploy . --project-name bpjs-payroll-simulator",
+    "test:formula": "node tests/formula.spec.js"
+  }
+}

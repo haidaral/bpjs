@@ -1,0 +1,20 @@
+﻿node_modules/
+.npm-cache/
+.wrangler/
+dist/
+publish/
+
+# logs
+*.log
+
+# os/editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# env
+.env
+.env.*
+
+# local temp
+*.tmp

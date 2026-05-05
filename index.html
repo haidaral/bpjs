@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulasi Potongan BPJS dan Investasi Karyawan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm top-nav">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fas fa-calculator"></i> Simulasi BPJS</a>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+    <div class="theme-controls mx-auto mb-3" style="max-width: 680px;">
+      <div class="d-flex flex-wrap gap-2 justify-content-end align-items-center">
+        <span class="small mb-0">Accent</span>
+        <div id="accentChips" class="accent-chips" role="group" aria-label="Accent color options">
+          <button type="button" class="accent-chip active" data-accent="blue" title="Blue"></button>
+          <button type="button" class="accent-chip" data-accent="green" title="Green"></button>
+          <button type="button" class="accent-chip" data-accent="orange" title="Orange"></button>
+          <button type="button" class="accent-chip" data-accent="pink" title="Pink"></button>
+        </div>
+        <button id="darkModeToggle" type="button" class="btn btn-sm btn-outline-secondary">Dark Mode</button>
+      </div>
+    </div>
+    <div class="hero-tag mx-auto mb-3" style="max-width: 680px;">
+      Smart payroll simulator for your career move
+    </div>
+    <div class="card mx-auto shadow-lg form-shell" style="max-width: 680px;">
+      <div class="card-body p-4 p-md-5">
+        <h3 class="card-title text-center mb-1">Hitung Potongan BPJS Anda</h3>
+        <p class="text-center text-muted mb-4">Serius untuk keputusan finansial, tetap fun untuk dipakai harian.</p>
+        <form id="bpjsForm" novalidate>
+          <div class="mb-3">
+            <label class="form-label d-block">Preset Profile</label>
+            <div id="presetProfiles" class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary preset-btn" data-ptkp="TK0">Fresh Grad</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary preset-btn" data-ptkp="TK0">Single</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary preset-btn" data-ptkp="K1">Married + 1</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary preset-btn" data-ptkp="K2">Married + 2</button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="gaji" class="form-label">Berapa gaji kamu? (Rp)</label>
+            <input type="text" class="form-control form-control-lg" id="gaji" placeholder="Masukkan gaji bulanan" autocomplete="off" required>
+          </div>
+          <div class="mb-4">
+            <label for="anggotaKeluarga" class="form-label">Berapa anggota keluarga? (termasuk diri sendiri)</label>
+            <input type="number" min="1" class="form-control form-control-lg" id="anggotaKeluarga" placeholder="Masukkan jumlah anggota keluarga" required>
+          </div>
+          <div class="border rounded-3 p-3 mb-4 bg-light-subtle">
+            <h6 class="mb-3">Opsi Pajak (Opsional)</h6>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="includeTax">
+              <label class="form-check-label" for="includeTax">
+                Sertakan estimasi potongan PPh 21
+              </label>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="taxMethod" class="form-label">Metode Pajak</label>
+                <select class="form-select" id="taxMethod" disabled>
+                  <option value="ter" selected>TER Bulanan (PP 58/2023) - Rekomendasi</option>
+                  <option value="progressive">Progresif Tahunan (Sederhana)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="ptkpStatus" class="form-label">Status PTKP</label>
+                <select class="form-select" id="ptkpStatus" disabled>
+                  <option value="TK0" selected>TK/0 - Rp54.000.000</option>
+                  <option value="TK1">TK/1 - Rp58.500.000</option>
+                  <option value="TK2">TK/2 - Rp63.000.000</option>
+                  <option value="TK3">TK/3 - Rp67.500.000</option>
+                  <option value="K0">K/0 - Rp58.500.000</option>
+                  <option value="K1">K/1 - Rp63.000.000</option>
+                  <option value="K2">K/2 - Rp67.500.000</option>
+                  <option value="K3">K/3 - Rp72.000.000</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-check mt-3">
+              <input class="form-check-input" type="checkbox" id="includeThr" disabled>
+              <label class="form-check-label" for="includeThr">
+                Sertakan THR (asumsi THR = 1x gaji bulanan) dalam estimasi pajak
+              </label>
+            </div>
+            <div class="form-check mt-3">
+              <input class="form-check-input" type="checkbox" id="prorataThr" disabled>
+              <label class="form-check-label" for="prorataThr">
+                THR prorata (untuk karyawan belum 12 bulan)
+              </label>
+            </div>
+            <div class="mt-2">
+              <label for="monthsWorked" class="form-label">Masa kerja (bulan)</label>
+              <input type="number" min="1" max="12" class="form-control" id="monthsWorked" value="12" disabled>
+            </div>
+            <small class="text-muted d-block mt-2">
+              Kebijakan terkini PPh 21 pegawai tetap memakai TER bulanan untuk masa pajak selain masa terakhir. THR/bonus dijumlahkan ke penghasilan bruto bulan pembayaran lalu dikenakan TER sesuai kategori PTKP.
+            </small>
+            <small class="text-muted d-block mt-1">
+              Termasuk THR prorata: nominal THR prorata tetap masuk bruto bulan THR dan tetap dikenai TER pada bulan tersebut.
+            </small>
+          </div>
+          <div class="border rounded-3 p-3 mb-4">
+            <h6 class="mb-3">Simulasi Kenaikan Gaji (Opsional)</h6>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="currentAllowance" class="form-label">Tunjangan Bulanan Saat Ini (Rp)</label>
+                <input type="text" class="form-control" id="currentAllowance" placeholder="Contoh: 1000000">
+              </div>
+              <div class="col-md-6">
+                <label for="currentOtherDeduction" class="form-label">Potongan Lain Saat Ini (Rp)</label>
+                <input type="text" class="form-control" id="currentOtherDeduction" placeholder="Contoh: 250000">
+              </div>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="enableComparison">
+              <label class="form-check-label" for="enableComparison">
+                Aktifkan perbandingan gaji baru
+              </label>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="comparisonType" class="form-label">Skenario</label>
+                <select class="form-select" id="comparisonType" disabled>
+                  <option value="same_company" selected>Naik gaji di perusahaan yang sama</option>
+                  <option value="new_company">Pindah ke perusahaan baru</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="newSalary" class="form-label">Gaji baru (Rp)</label>
+                <input type="text" class="form-control" id="newSalary" placeholder="Contoh: 12000000" disabled>
+              </div>
+              <div class="col-md-6">
+                <label for="newAllowance" class="form-label">Tunjangan Bulanan Gaji Baru (Rp)</label>
+                <input type="text" class="form-control" id="newAllowance" placeholder="Contoh: 1500000" disabled>
+              </div>
+              <div class="col-md-6">
+                <label for="newOtherDeduction" class="form-label">Potongan Lain Gaji Baru (Rp)</label>
+                <input type="text" class="form-control" id="newOtherDeduction" placeholder="Contoh: 300000" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="border rounded-3 p-3 mb-4">
+            <h6 class="mb-3">Timeline Cashflow</h6>
+            <label for="thrMonth" class="form-label">Bulan Pembayaran THR</label>
+            <select class="form-select" id="thrMonth">
+              <option value="0">Januari</option>
+              <option value="1">Februari</option>
+              <option value="2">Maret</option>
+              <option value="3" selected>April</option>
+              <option value="4">Mei</option>
+              <option value="5">Juni</option>
+              <option value="6">Juli</option>
+              <option value="7">Agustus</option>
+              <option value="8">September</option>
+              <option value="9">Oktober</option>
+              <option value="10">November</option>
+              <option value="11">Desember</option>
+            </select>
+            <div class="mt-3">
+              <label for="sensitivityPct" class="form-label">Sensitivity Gaji Baru (+/- %)</label>
+              <input type="range" class="form-range" min="0" max="30" step="1" value="10" id="sensitivityPct">
+              <div><small id="sensitivityLabel" class="text-muted">Rentang analisis: +/-10%</small></div>
+            </div>
+          </div>
+          <div class="border rounded-3 p-3 mb-4">
+            <h6 class="mb-2">Target Net Finder</h6>
+            <label for="targetNet" class="form-label">Target gaji bersih bulanan (Rp)</label>
+            <input type="text" class="form-control" id="targetNet" placeholder="Contoh: 9000000">
+            <small class="text-muted d-block mt-2">Sistem akan estimasi gaji bruto yang dibutuhkan berdasarkan pengaturan aktif saat ini.</small>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg w-100 cta-main">Hitung Sekarang</button>
+        </form>
+        <div id="primaryActions" class="d-flex flex-wrap gap-2 mt-3">
+          <button id="saveScenarioBtn" type="button" class="btn btn-outline-secondary btn-sm">Simpan Skenario</button>
+          <button id="shareLinkBtn" type="button" class="btn btn-outline-secondary btn-sm">Copy Share Link</button>
+          <button id="exportCsvBtn" type="button" class="btn btn-outline-secondary btn-sm">Export CSV</button>
+          <button id="printBtn" type="button" class="btn btn-outline-secondary btn-sm">Print / Save PDF</button>
+        </div>
+        <small id="scenarioStatus" class="text-muted d-block mt-2"></small>
+        <div class="mt-3 border rounded-3 p-3 bg-light-subtle history-shell">
+          <h6 class="mb-2">Riwayat Skenario</h6>
+          <div id="scenarioHistory" class="small text-muted">Belum ada skenario tersimpan.</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="hasil" class="mt-4" aria-live="polite"></section>
+
+    <div class="card mx-auto shadow-sm mt-4" style="max-width: 680px;">
+      <div class="card-body">
+        <small class="text-muted">
+          Catatan: Ini simulasi edukasi berbasis asumsi perhitungan umum. Estimasi PPh 21 menggunakan tarif progresif Pasal 17 (UU HPP) dengan PTKP default TK/0 (Rp54.000.000/tahun), bukan skema payroll TER detail per kategori.
+        </small>
+        <div class="mt-2">
+          <small class="text-muted">Build: v2.4.0 | UI + Tax Simulator Engine + Live API</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mx-auto shadow-sm mt-3" style="max-width: 680px;">
+      <div class="card-body">
+        <h6 class="mb-2">Release Notes</h6>
+        <small class="text-muted d-block">v2.4.0:</small>
+        <small class="text-muted d-block">- Copy Share Link: bagikan simulasi dengan URL yang otomatis prefill input.</small>
+        <small class="text-muted d-block">- Link scenario aman dipersingkat via payload encode (base64url).</small>
+        <small class="text-muted d-block">- Saat link dibuka, form langsung dimuat dari parameter URL.</small>
+        <small class="text-muted d-block mt-2">v2.3.0:</small>
+        <small class="text-muted d-block">- Target Net Finder: estimasi gaji bruto untuk capai target net bulanan.</small>
+        <small class="text-muted d-block">- Copy Result pada Target Net Finder untuk share cepat ke HR/manager.</small>
+        <small class="text-muted d-block">- Backend mode otomatis aktif di production (tanpa toggle user-facing).</small>
+        <small class="text-muted d-block">- API `/api/calculate` + `/api/health` tetap live dengan fallback aman.</small>
+        <small class="text-muted d-block">- UI theme support: accent chips + dark mode.</small>
+      </div>
+    </div>
+
+    <div class="card mx-auto shadow-sm mt-3" style="max-width: 680px;">
+      <div class="card-body">
+        <h6 class="mb-2">Policy Metadata</h6>
+        <small class="text-muted d-block">Rule basis: PP 58/2023 + PMK 168/2023 (TER bulanan)</small>
+        <small class="text-muted d-block">Progressive fallback: UU HPP Pasal 17</small>
+        <small class="text-muted d-block">Default baseline: PTKP TK/0 (kecuali user override)</small>
+        <small class="text-muted d-block">THR policy: THR/prorata THR masuk bruto bulan THR</small>
+        <small class="text-muted d-block">Metadata updated: 2026-05-05</small>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

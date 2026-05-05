@@ -1,0 +1,4 @@
+﻿run = "python -m http.server 3000"
+
+[nix]
+channel = "stable-24_05"

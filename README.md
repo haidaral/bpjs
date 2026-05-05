@@ -76,13 +76,62 @@ For exact payroll/legal compliance, validate outputs with your payroll/legal/tax
 - `tests/formula.spec.js` : formula invariant checks
 - `docs/` : architecture, policy, deployment docs
 
-## Quick Start (Local)
+## Start from Zero (Beginner Friendly)
 
-### Prerequisites
-- Node.js 18+
-- Optional: Python (for basic static serving)
+This section is for first-time users who just cloned the repo and want to run it locally.
 
-### Run static mode
+### 1) Install prerequisites
+
+- Git: https://git-scm.com/downloads
+- Node.js 18+: https://nodejs.org/en/download
+- Python 3 (optional, for simple static server): https://www.python.org/downloads/
+
+### 2) Clone repository
+
+```powershell
+git clone https://github.com/haidaral/bpjs.git
+cd bpjs
+```
+
+### 3) Start static mode (choose one)
+
+Option A: Python (recommended simple path)
+
+```powershell
+python -m http.server 4173
+```
+
+If `python` is not recognized on Windows, use:
+
+```powershell
+py -m http.server 4173
+```
+
+Option B: Node only (no Python)
+
+```powershell
+npx serve . -l 4173
+```
+
+### 4) Open app in browser
+
+- http://127.0.0.1:4173
+
+You should see:
+- Header `Simulasi BPJS`
+- Main form with salary input
+- Theme controls (Accent + Dark Mode)
+
+### 5) Run checks (optional but recommended)
+
+```powershell
+node --check script.js
+npm run test:formula
+```
+
+## Quick Start (Existing Developers)
+
+If your environment is already ready:
 
 ```powershell
 python -m http.server 4173
@@ -90,13 +139,6 @@ python -m http.server 4173
 
 Open:
 - `http://127.0.0.1:4173`
-
-### Formula checks
-
-```powershell
-npm run test:formula
-node --check script.js
-```
 
 ## Deployment
 
@@ -135,6 +177,20 @@ If API is unavailable, app falls back to local engine.
 6. Mobile layout/tap targets verified
 
 ## Troubleshooting
+
+### `python` or `py` command not found
+- Reinstall Python and check “Add Python to PATH” during installation.
+- Or use Node option: `npx serve . -l 4173`
+
+### `npx` command not found
+- Node.js is not installed or PATH is not updated.
+- Reinstall Node.js and reopen terminal.
+
+### Port `4173` already in use
+- Use another port, for example:
+  - `python -m http.server 4174`
+  - `npx serve . -l 4174`
+- Then open `http://127.0.0.1:4174`
 
 ### Push rejected (non-fast-forward)
 - Remote has existing commits.
